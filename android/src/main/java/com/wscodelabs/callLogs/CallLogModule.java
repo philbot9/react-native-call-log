@@ -74,6 +74,7 @@ public class CallLogModule extends ReactContextBaseJavaModule {
             int callLogCount = 0;
 
             final int NUMBER_COLUMN_INDEX = cursor.getColumnIndex(Calls.NUMBER);
+            final int POST_DIAL_DIGITS_COLUMN_INDEX = cursor.getColumnIndex(Calls.POST_DIAL_DIGITS);
             final int TYPE_COLUMN_INDEX = cursor.getColumnIndex(Calls.TYPE);
             final int DATE_COLUMN_INDEX = cursor.getColumnIndex(Calls.DATE);
             final int DURATION_COLUMN_INDEX = cursor.getColumnIndex(Calls.DURATION);
@@ -84,6 +85,7 @@ public class CallLogModule extends ReactContextBaseJavaModule {
 
             while (cursor.moveToNext() && this.shouldContinue(limit, callLogCount) && !minTimestampReached) {
                 String phoneNumber = cursor.getString(NUMBER_COLUMN_INDEX);
+                String postDialDigits = cursor.getString(POST_DIAL_DIGITS_COLUMN_INDEX);
                 int duration = cursor.getInt(DURATION_COLUMN_INDEX);
                 String name = cursor.getString(NAME_COLUMN_INDEX);
 
@@ -104,6 +106,7 @@ public class CallLogModule extends ReactContextBaseJavaModule {
                 if (passesFilter) {
                     WritableMap callLog = Arguments.createMap();
                     callLog.putString("phoneNumber", phoneNumber);
+                    callLog.putString("postDialDigits", postDialDigits);
                     callLog.putInt("duration", duration);
                     callLog.putString("name", name);
                     callLog.putString("timestamp", timestampStr);
